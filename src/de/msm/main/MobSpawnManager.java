@@ -10,6 +10,7 @@ public class MobSpawnManager extends JavaPlugin {
 	public void onEnable() {
 		
 		Bukkit.getPluginManager().registerEvents(new EntitySpawnListener(), this);
+		Bukkit.getPluginManager().registerEvents(new EntityAIListener(), this);
 		
 		System.out.println(" ");
 		System.out.println(" ");
@@ -17,7 +18,7 @@ public class MobSpawnManager extends JavaPlugin {
 		System.out.println("========== MobSpawn Manager ==========");
 		System.out.println(" ");
 		System.out.println("Author: GibMirRechte");
-		System.out.println("Version: 1.0");
+		System.out.println("Version: 1.1");
 		System.out.println("Discord: yhBX6KT");
 		System.out.println(" ");
 		System.out.println("========== MobSpawn Manager ==========");
