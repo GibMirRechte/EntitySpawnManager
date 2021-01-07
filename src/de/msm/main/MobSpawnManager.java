@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.msm.cmd.ManagerGUI;
 import de.msm.listener.EntitySpawnListener;
+import de.msm.listener.JoinListener;
 
 public class MobSpawnManager extends JavaPlugin {
 
@@ -12,6 +13,7 @@ public class MobSpawnManager extends JavaPlugin {
 		
 		Bukkit.getPluginManager().registerEvents(new EntitySpawnListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ManagerGUI(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
 		
 		getCommand("managegui").setExecutor(new ManagerGUI());
 
