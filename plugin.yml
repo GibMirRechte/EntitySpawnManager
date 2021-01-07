@@ -1,6 +1,8 @@
 name: EntitySpawnManager
-version: 1.0
+version: 1.1.1
 author: GibMirRechte
 main: de.msm.main.MobSpawnManager
 website: https://discord.gg/yhBX6KT
 commands:
+   managegui:
+      description: Edit the config.yml without open it
