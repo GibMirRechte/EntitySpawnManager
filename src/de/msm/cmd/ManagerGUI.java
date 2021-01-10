@@ -28,12 +28,12 @@ public class ManagerGUI implements Listener, CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdlabel, String args[]) {
 		
 		if(!(sender instanceof Player)) {
-			sender.sendMessage("§cYou must be a player to use this command!");
+			sender.sendMessage("§7[§cEntitySpawnManager§7] §cYou must be a player to use this command!");
 			return true;
 		}
 		
 		if(!sender.hasPermission("esm.perm.gui")) {
-			sender.sendMessage("§cYou don't have the permissions to use this command!");
+			sender.sendMessage("§7[§cEntitySpawnManager§7] §cYou don't have the permissions to use this command!");
 			return true;
 		}
 		
@@ -45,7 +45,7 @@ public class ManagerGUI implements Listener, CommandExecutor {
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		if(e.getPlayer().getOpenInventory().getTitle().equalsIgnoreCase("§cEntitySpawnManager - GUI")) {
-			e.getPlayer().sendMessage("§4To update the config you must reload or restart the server!");
+			e.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §4To update the config you must reload or restart the server!");
 		}
 	}
 	

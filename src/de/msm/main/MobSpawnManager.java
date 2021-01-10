@@ -3,9 +3,9 @@ package de.msm.main;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.msm.listener.JoinListener;
 import de.msm.cmd.ManagerGUI;
 import de.msm.listener.EntitySpawnListener;
-import de.msm.listener.JoinListener;
 
 public class MobSpawnManager extends JavaPlugin {
 
