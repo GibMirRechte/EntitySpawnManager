@@ -25,7 +25,7 @@ public class EntitySpawnManager extends JavaPlugin {
 		System.out.println("========== EntitySpawnManager ==========");
 		System.out.println(" ");
 		System.out.println("Author: GibMirRechte");
-		System.out.println("Version: 1.0");
+		System.out.println("Version: " + Bukkit.getPluginManager().getPlugin("EntitySpawnManager").getDescription().getVersion());
 		System.out.println("Discord: yhBX6KT");
 		System.out.println(" ");
 		System.out.println("========== EntitySpawnManager ==========");
