@@ -23,7 +23,8 @@ public class EntitySpawnListener implements Listener {
 			return;
 		}
 		
-		if(event.getEntityType().equals(EntityType.PLAYER)) {
+		if(event.getEntityType().equals(EntityType.PLAYER) || event.getEntityType().equals(EntityType.DROPPED_ITEM) ||
+				event.getEntityType().equals(EntityType.SPECTRAL_ARROW) || event.getEntityType().equals(EntityType.DRAGON_FIREBALL)) {
 			return;
 		}
 		
