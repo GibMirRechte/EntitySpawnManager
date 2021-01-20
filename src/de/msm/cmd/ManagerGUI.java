@@ -24,6 +24,9 @@ public class ManagerGUI implements Listener, CommandExecutor {
 	File file = new File("plugins//EntitySpawnHandler//EntityList.yml");
 	YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 	
+	File file1 = new File("plugins//EntitySpawnHandler//EntityAI.yml");
+	YamlConfiguration yaml1 = YamlConfiguration.loadConfiguration(file1);
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdlabel, String args[]) {
 		
@@ -37,21 +40,32 @@ public class ManagerGUI implements Listener, CommandExecutor {
 			return true;
 		}
 		
-		setGui((Player) sender);
+		if(args.length != 1) {
+			sender.sendMessage("§7[§cEntitySpawnManager§7] §cPlease use /managegui <AI/Spawning>");
+			return true;
+		}
+		
+		if(args[0].equalsIgnoreCase("ai")) {
+			setGui_AI((Player) sender);
+		}else if(args[0].equalsIgnoreCase("spawning")) {
+			setGui_Spawning((Player) sender);
+		}else {
+			sender.sendMessage("§7[§cEntitySpawnManager§7] §cPlease use /managegui <AI/Spawning>");
+		}
 		
 		return false;
 	}
 	
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
-		if(e.getPlayer().getOpenInventory().getTitle().equalsIgnoreCase("§cEntitySpawnManager - GUI")) {
+		if(e.getPlayer().getOpenInventory().getTitle().startsWith("§cEntitySpawnManager - GUI")) {
 			e.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §4To update the config you must reload or restart the server!");
 		}
 	}
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		if(e.getWhoClicked().getOpenInventory().getTitle().equalsIgnoreCase("§cEntitySpawnManager - GUI")) {
+		if(e.getWhoClicked().getOpenInventory().getTitle().equalsIgnoreCase("§cEntitySpawnManager - GUI (Spawning)")) {
 			e.setCancelled(true);
 			if(e.getCurrentItem().getType().equals(Material.LIME_WOOL)) {
 					ItemStack item = new ItemStack(Material.RED_WOOL);
@@ -74,11 +88,62 @@ public class ManagerGUI implements Listener, CommandExecutor {
 					try { yaml.save(file); } catch(IOException e1) {
 			}
 		}
+	}else if(e.getWhoClicked().getOpenInventory().getTitle().equalsIgnoreCase("§cEntitySpawnManager - GUI (AI)")) {
+		e.setCancelled(true);
+		if(e.getCurrentItem().getType().equals(Material.LIME_WOOL)) {
+				ItemStack item = new ItemStack(Material.RED_WOOL);
+				ItemMeta itemmeta = item.getItemMeta();
+				itemmeta.setDisplayName(e.getCurrentItem().getItemMeta().getDisplayName());
+				itemmeta.setLore(Arrays.asList("§7AI: §cDISABLED"));
+				item.setItemMeta(itemmeta);
+				e.setCurrentItem(item);
+				yaml1.set(e.getCurrentItem().getItemMeta().getDisplayName(), false);
+				try { yaml1.save(file1); } catch(IOException e1) {
+			}
+		}else if(e.getCurrentItem().getType().equals(Material.RED_WOOL)) {
+				ItemStack item = new ItemStack(Material.LIME_WOOL);
+				ItemMeta itemmeta = item.getItemMeta();
+				itemmeta.setDisplayName(e.getCurrentItem().getItemMeta().getDisplayName());
+				itemmeta.setLore(Arrays.asList("§7AI: §aENABLED"));
+				item.setItemMeta(itemmeta);
+				e.setCurrentItem(item);
+				yaml1.set(e.getCurrentItem().getItemMeta().getDisplayName(), true);
+				try { yaml1.save(file1); } catch(IOException e1) {
+		}
 	}
 }
+}
 	
-	public void setGui(Player p) {
-		Inventory inv = Bukkit.createInventory(null, 9*6, "§cEntitySpawnManager - GUI");
+	public void setGui_AI(Player p) {
+		Inventory inv = Bukkit.createInventory(null, 9*6, "§cEntitySpawnManager - GUI (AI)");
+		
+		int slot = -1;
+		for(String entry : yaml1.getKeys(false)) {
+			slot++;
+			
+			if(yaml1.getBoolean(entry)) {
+				ItemStack item = new ItemStack(Material.LIME_WOOL);
+				ItemMeta itemmeta = item.getItemMeta();
+				itemmeta.setDisplayName(entry);
+				itemmeta.setLore(Arrays.asList("§7AI: §aENABLED"));
+				item.setItemMeta(itemmeta);
+				item.setAmount(1);
+				inv.setItem(slot, item);
+			}else {
+				ItemStack item = new ItemStack(Material.RED_WOOL);
+				ItemMeta itemmeta = item.getItemMeta();
+				itemmeta.setDisplayName(entry);
+				itemmeta.setLore(Arrays.asList("§7AI: §cDISABLED"));
+				item.setItemMeta(itemmeta);
+				item.setAmount(1);
+				inv.setItem(slot, item);
+			}
+		}
+		p.openInventory(inv);
+	}
+	
+	public void setGui_Spawning(Player p) {
+		Inventory inv = Bukkit.createInventory(null, 9*6, "§cEntitySpawnManager - GUI (Spawning)");
 		
 		int slot = -1;
 		for(String entry : yaml.getKeys(false)) {
