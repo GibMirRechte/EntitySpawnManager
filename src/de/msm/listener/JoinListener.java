@@ -7,56 +7,78 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import de.msm.main.MobSpawnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * The type Join listener.
+ */
 public class JoinListener implements Listener {
 
-	   private String url = "https://api.spigotmc.org/legacy/update.php?resource=";
-	    private String id = "87524";
+	/**
+	 * Instantiates a new Join listener.
+	 *
+	 * @param plugin the plugin
+	 */
+	public JoinListener(final MobSpawnManager plugin) {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-	    private boolean isAvailable;
+	private final String url = "https://api.spigotmc.org/legacy/update.php?resource=";
+	private final String id = "87524";
 
-	    @EventHandler
-	    public void on(PlayerJoinEvent event) {
-	    	check();
-	        if(event.getPlayer().hasPermission("esm.perm.notification")) {
-	            if(isAvailable) {
-	            	event.getPlayer().sendMessage(" ");
-	                event.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §aA NEW UPDATE IS AVAILABLE!");
-	                event.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §cDownload: §bhttps://www.spigotmc.org/resources/1-16-x-entityspawnmanager-by-gibmirrechte.87524/");
-	            }
-	            }
-	        }
+	private boolean isAvailable;
 
-	    public void check() {
-	        isAvailable = checkUpdate();
-	    }
+	/**
+	 * On.
+	 *
+	 * @param event the event
+	 */
+	@EventHandler
+	public void on(final PlayerJoinEvent event) {
+		check();
+		if (event.getPlayer().hasPermission("esm.perm.notification")) {
+			if (isAvailable) {
+				event.getPlayer().sendMessage(" ");
+				event.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §aA NEW UPDATE IS AVAILABLE!");
+				event.getPlayer().sendMessage("§7[§cEntitySpawnManager§7] §cDownload: §bhttps://www.spigotmc.org/resources/1-16-x-entityspawnmanager-by-gibmirrechte.87524/");
+			}
+		}
+	}
 
-	    private boolean checkUpdate() {
-	        System.out.println("§7[§cEntitySpawnManager§7] §aChecking for updates...");
-	        try {
-	            String localVersion = Bukkit.getPluginManager().getPlugin("EntitySpawnManager").getDescription().getVersion();
-	            HttpsURLConnection connection = (HttpsURLConnection) new URL(url + id).openConnection();
-	            connection.setRequestMethod("GET");
-	            String raw = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
+	/**
+	 * Check.
+	 */
+	public void check() {
+		isAvailable = checkUpdate();
+	}
 
-	            String remoteVersion;
-	            if(raw.contains("-")) {
-	                remoteVersion = raw.split("-")[0].trim();
-	            } else {
-	                remoteVersion = raw;
-	            }
+	private boolean checkUpdate() {
+		System.out.println("§7[§cEntitySpawnManager§7] §aChecking for updates...");
+		try {
+			String localVersion = Bukkit.getPluginManager().getPlugin("EntitySpawnManager").getDescription().getVersion();
+			HttpsURLConnection connection = (HttpsURLConnection) new URL(url + id).openConnection();
+			connection.setRequestMethod("GET");
+			String raw = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 
-	            if(!localVersion.equalsIgnoreCase(remoteVersion))
-	                return true;
+			String remoteVersion;
+			if (raw.contains("-")) {
+				remoteVersion = raw.split("-")[0].trim();
+			} else {
+				remoteVersion = raw;
+			}
 
-	        } catch (IOException e) {
-	            return false;
-	        }
-	        return false;
-	    }
+			if (!localVersion.equalsIgnoreCase(remoteVersion)) {
+				return true;
+			}
 
+		} catch (IOException e) {
+			return false;
+		}
+		return false;
+	}
 }
+
