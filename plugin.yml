@@ -4,6 +4,8 @@ api-version: 1.16
 author: GibMirRechte
 authors:
    - _ProfliX_
+api-version: 1.15
+author: GibMirRechte
 main: de.msm.main.MobSpawnManager
 website: https://discord.gg/yhBX6KT
 commands:

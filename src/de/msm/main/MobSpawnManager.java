@@ -1,6 +1,7 @@
 package de.msm.main;
 
 import de.msm.utils.ColorUtil;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +18,18 @@ public class MobSpawnManager extends JavaPlugin {
 
 	public void onEnable() {
 		onListeners();
+public class MobSpawnManager extends JavaPlugin {
+
+	public void onEnable() {
+		
+		Bukkit.getPluginManager().registerEvents(new EntitySpawnListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ManagerGUI(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+		Bukkit.getPluginManager().registerEvents(new EntityAIListener(), this);
+		
+		getCommand("managegui").setExecutor(new ManagerGUI());
+
 		System.out.println(" ");
 		System.out.println(" ");
 		System.out.println(" ");
@@ -28,6 +41,7 @@ public class MobSpawnManager extends JavaPlugin {
 		System.out.println(" ");
 		System.out.println("========== EntitySpawnManager ==========");
 	}
+
 
 	/**
 	 * On listeners.
@@ -42,5 +56,4 @@ public class MobSpawnManager extends JavaPlugin {
 		getCommand("managegui").setExecutor(new ManagerGUI(this));
 		getServer().getLogger().info(ColorUtil.color("&6&l EntitySpawnManager &8| &aSuccessfully loaded the plugin listeners!"));
 	}
-
 }
