@@ -17,18 +17,7 @@ import de.msm.listener.EntitySpawnListener;
 public class MobSpawnManager extends JavaPlugin {
 
 	public void onEnable() {
-		onListeners();
-public class MobSpawnManager extends JavaPlugin {
-
-	public void onEnable() {
-		
-		Bukkit.getPluginManager().registerEvents(new EntitySpawnListener(), this);
-		Bukkit.getPluginManager().registerEvents(new ManagerGUI(), this);
-		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
-		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-		Bukkit.getPluginManager().registerEvents(new EntityAIListener(), this);
-		
-		getCommand("managegui").setExecutor(new ManagerGUI());
+		onListeners(this);
 
 		System.out.println(" ");
 		System.out.println(" ");
